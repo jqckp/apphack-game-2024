@@ -7,12 +7,13 @@ pygame.init()
 FPS = 60
 BLACK = ((0,0,0))
 
+cowboy_speed = 4
+cowboy_facing_right = True
+
 COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 COWBOY = pygame.transform.scale(COWBOY, (50, 60))
-COWBOY_X = 300
-COWBOY_Y = 100
-COWBOY_speed = 4
-COWBOY_facing_right = True
+
+
 
 COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 COWBOY = pygame.transform.scale(COWBOY, (75, 75))
@@ -42,19 +43,19 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
-        COWBOY_POSITION.x -= COWBOY_speed
-        if COWBOY_facing_right:
+        COWBOY_POSITION.x -= cowboy_speed
+        if cowboy_facing_right:
             COWBOY = pygame.transform.flip(COWBOY, True, False)
-            COWBOY_facing_right = False
+            cowboy_facing_right = False
     if keys[pygame.K_d]:
-        COWBOY_POSITION.x += COWBOY_speed
-        if not(COWBOY_facing_right):
+        COWBOY_POSITION.x += cowboy_speed
+        if not(cowboy_facing_right):
             COWBOY = pygame.transform.flip(COWBOY, True, False)
-            COWBOY_facing_right = True
+            cowboy_facing_right = True
     if keys[pygame.K_w]:
-        COWBOY_POSITION.y -= COWBOY_speed
+        COWBOY_POSITION.y -= cowboy_speed
     if keys[pygame.K_s]:
-        COWBOY_POSITION.y += COWBOY_speed
+        COWBOY_POSITION.y += cowboy_speed
 
     COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
     COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
