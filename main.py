@@ -6,20 +6,23 @@ pygame.init()
 
 FPS = 60
 
-COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-COWBOY = pygame.transform.scale(COWBOY, (50, 60))
-COWBOY_X = 300
-COWBOY_Y = 100
-COWBOY_speed = 10
 
-WIDTH, HEIGHT = 1000, 1000
+COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
+COWBOY = pygame.transform.scale(COWBOY, (100, 100))
+
+
+COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
+
+WIDTH, HEIGHT = 600, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
 
-def make_game():
-    WIN.fill((0,0,0))
-    WIN.blit(COWBOY, (COWBOY_X, COWBOY_Y))
-    pygame.display.update()
+
+
+
+def display_frame(COWBOY_POSITION):
+    WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
+    pygame.display.flip()
 
 clock = pygame.time.Clock()
 running = True
@@ -29,21 +32,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        COWBOY_X -= COWBOY_speed
-        COWBOY = pygame.transform.flip(COWBOY, True, False)
-    if keys[pygame.K_RIGHT]:
-        COWBOY_X += COWBOY_speed
-        COWBOY = pygame.transform.flip(COWBOY, True, False)
-    if keys[pygame.K_UP]:
-        COWBOY_Y -= COWBOY_speed
-    if keys[pygame.K_DOWN]:
-        COWBOY_Y += COWBOY_speed
-
-    COWBOY_X = max(0, min(COWBOY_X, WIDTH - COWBOY.get_width()))
-    COWBOY_Y = max(0, min(COWBOY_Y, HEIGHT - COWBOY.get_height()))
-    make_game()
+    display_frame(COWBOY_POSITION)
 
 pygame.quit()
 sys.exit()
