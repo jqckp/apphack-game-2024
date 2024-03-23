@@ -11,8 +11,7 @@ cowboy_speed = 4
 
 
 
-COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-COWBOY = pygame.transform.scale(COWBOY, (50, 60))
+
 
 
 
