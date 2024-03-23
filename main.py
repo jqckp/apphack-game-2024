@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import button
 
 pygame.init()
 
@@ -35,31 +36,43 @@ def display_frame(COWBOY_POSITION):
 
 clock = pygame.time.Clock()
 running = True
-while running:
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_a]:
-        COWBOY_POSITION.x -= cowboy_speed
-        if cowboy_facing_right:
-            COWBOY = pygame.transform.flip(COWBOY, True, False)
-            cowboy_facing_right = False
-    if keys[pygame.K_d]:
-        COWBOY_POSITION.x += cowboy_speed
-        if not(cowboy_facing_right):
-            COWBOY = pygame.transform.flip(COWBOY, True, False)
-            cowboy_facing_right = True
-    if keys[pygame.K_w]:
-        COWBOY_POSITION.y -= cowboy_speed
-    if keys[pygame.K_s]:
-        COWBOY_POSITION.y += cowboy_speed
+def play():
+    while running:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
-    COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
-    display_frame(COWBOY_POSITION)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            COWBOY_POSITION.x -= cowboy_speed
+            if cowboy_facing_right:
+                COWBOY = pygame.transform.flip(COWBOY, True, False)
+                cowboy_facing_right = False
+        if keys[pygame.K_d]:
+            COWBOY_POSITION.x += cowboy_speed
+            if not(cowboy_facing_right):
+                COWBOY = pygame.transform.flip(COWBOY, True, False)
+                cowboy_facing_right = True
+        if keys[pygame.K_w]:
+            COWBOY_POSITION.y -= cowboy_speed
+        if keys[pygame.K_s]:
+            COWBOY_POSITION.y += cowboy_speed
+
+        COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
+        COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
+        display_frame(COWBOY_POSITION)
+
+def main_menu():
+    pygame.display.set_caption("Menu")
+    play_button = button.Button()
+
+    while True:
+        WIN.fill(BLACK)
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+        
+
 
 pygame.quit()
 sys.exit()
