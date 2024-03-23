@@ -34,6 +34,7 @@ def display_frame(COWBOY_POSITION):
     WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
     pygame.display.flip()
 
+<<<<<<< HEAD
 clock = pygame.time.Clock()
 running = True
 
@@ -73,6 +74,48 @@ def main_menu():
         MENU_MOUSE_POS = pygame.mouse.get_pos()
         
 
+=======
+
+def read_player_move(keys):
+   
+    global COWBOY
+    global cowboy_facing_right
+    
+    #keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]:
+        COWBOY_POSITION.x -= cowboy_speed
+        if cowboy_facing_right:
+                COWBOY = pygame.transform.flip(COWBOY, True, False)
+                cowboy_facing_right = False
+    if keys[pygame.K_d]:
+        COWBOY_POSITION.x += cowboy_speed
+        if not(cowboy_facing_right):
+            COWBOY = pygame.transform.flip(COWBOY, True, False)
+            cowboy_facing_right = True
+    if keys[pygame.K_w]:
+        COWBOY_POSITION.y -= cowboy_speed
+    if keys[pygame.K_s]:
+        COWBOY_POSITION.y += cowboy_speed
+    COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
+    COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
+    
+    
+
+    
+
+
+clock = pygame.time.Clock()
+running = True
+while running:
+    clock.tick(FPS)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    read_player_move(pygame.key.get_pressed())
+    
+    display_frame(COWBOY_POSITION)
+>>>>>>> c18093ef0b73e7df097b8a42dc26bf64e1fb92c5
 
 pygame.quit()
 sys.exit()
