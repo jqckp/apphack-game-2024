@@ -11,6 +11,7 @@ COWBOY = pygame.transform.scale(COWBOY, (50, 60))
 COWBOY_X = 300
 COWBOY_Y = 100
 COWBOY_speed = 10
+COWBOY_facing_right = True
 
 WIDTH, HEIGHT = 1000, 1000
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -30,15 +31,19 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
+    if keys[pygame.K_a]:
         COWBOY_X -= COWBOY_speed
-        COWBOY = pygame.transform.flip(COWBOY, True, False)
-    if keys[pygame.K_RIGHT]:
+        if COWBOY_facing_right:
+            COWBOY = pygame.transform.flip(COWBOY, True, False)
+            COWBOY_facing_right = False
+    if keys[pygame.K_d]:
         COWBOY_X += COWBOY_speed
-        COWBOY = pygame.transform.flip(COWBOY, True, False)
-    if keys[pygame.K_UP]:
+        if not(COWBOY_facing_right):
+            COWBOY = pygame.transform.flip(COWBOY, True, False)
+            COWBOY_facing_right = True
+    if keys[pygame.K_w]:
         COWBOY_Y -= COWBOY_speed
-    if keys[pygame.K_DOWN]:
+    if keys[pygame.K_s]:
         COWBOY_Y += COWBOY_speed
 
     COWBOY_X = max(0, min(COWBOY_X, WIDTH - COWBOY.get_width()))
