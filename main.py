@@ -11,11 +11,11 @@ COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 COWBOY = pygame.transform.scale(COWBOY, (50, 60))
 COWBOY_X = 300
 COWBOY_Y = 100
-COWBOY_speed = 10
+COWBOY_speed = 4
 COWBOY_facing_right = True
 
 COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-COWBOY = pygame.transform.scale(COWBOY, (100, 100))
+COWBOY = pygame.transform.scale(COWBOY, (75, 75))
 
 
 COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
@@ -56,8 +56,8 @@ while running:
     if keys[pygame.K_s]:
         COWBOY_POSITION.y += COWBOY_speed
 
-    COWBOY_X = max(0, min(COWBOY_X, WIDTH - COWBOY.get_width()))
-    COWBOY_Y = max(0, min(COWBOY_Y, HEIGHT - COWBOY.get_height()))
+    COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
+    COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
     display_frame(COWBOY_POSITION)
 
 pygame.quit()
