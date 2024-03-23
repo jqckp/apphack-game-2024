@@ -13,7 +13,7 @@ WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
 
-def make_game():
+def display_frame():
     WIN.blit(WIZARD, (300, 100))
     pygame.display.flip()
 
@@ -25,7 +25,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    make_game()
+    display_frame()
 
 pygame.quit()
 sys.exit()
