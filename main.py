@@ -18,6 +18,8 @@ cowboy_speed = 4
 COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 COWBOY = pygame.transform.scale(COWBOY, (75, 75))
 
+GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_105x105.png'))
+GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (600, 600))
 
 COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
 
@@ -30,6 +32,7 @@ pygame.display.set_caption("Spaghetti Fantasy")
  
 def display_frame(COWBOY_POSITION):
     WIN.fill(BLACK)
+    WIN.blit(GAME_SQUARE, (0, 0))
     WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
     pygame.display.update()
 
