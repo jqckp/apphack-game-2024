@@ -6,15 +6,22 @@ pygame.init()
 
 FPS = 60
 
-WIZARD = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-WIZARD = pygame.transform.scale(WIZARD, (100, 100))
+
+COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
+COWBOY = pygame.transform.scale(COWBOY, (100, 100))
+
+
+COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
 
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
 
-def display_frame():
-    WIN.blit(WIZARD, (300, 100))
+
+
+
+def display_frame(COWBOY_POSITION):
+    WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
     pygame.display.flip()
 
 clock = pygame.time.Clock()
@@ -25,7 +32,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    display_frame()
+    display_frame(COWBOY_POSITION)
 
 pygame.quit()
 sys.exit()
