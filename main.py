@@ -6,7 +6,7 @@ pygame.init()
 
 FPS = 60
 
-WIZARD = pygame.image.load(os.path.join('Assets', 'wizard.png'))
+WIZARD = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 WIZARD = pygame.transform.scale(WIZARD, (100, 100))
 
 WIDTH, HEIGHT = 900, 500
