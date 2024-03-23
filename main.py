@@ -28,7 +28,7 @@ running = True
 def display_frame(COWBOY_POSITION):
     WIN.fill(BLACK)
     WIN.blit(GAME_SQUARE, (0, 0))
-    WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
+    WIN.blit(COWBOY, COWBOY_POSITION)
     pygame.display.update()
 
 def read_player_move(keys):
