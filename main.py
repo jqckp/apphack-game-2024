@@ -16,7 +16,7 @@ COWBOY = pygame.transform.scale(COWBOY, (75, 75))
 GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_105x105.png'))
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (600, 600))
 
-COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
+COWBOY_POSITION = COWBOY.get_rect(center = (300, 300))
 
 WIDTH, HEIGHT = 600, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
