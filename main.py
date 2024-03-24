@@ -1,3 +1,4 @@
+import random
 import pygame 
 
 import sys
@@ -19,16 +20,15 @@ cowboy_speed = 4
 
 skeletons = [skeleton(), skeleton(), skeleton()]
 
-COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
+COWBOY = pygame.image.load(os.path.join('Assets', "Player_Character.png"))
 COWBOY = pygame.transform.scale(COWBOY, (CB_SCALE_W, CB_SCALE_H))
 
-GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_105x105.png'))
+COWBOY_POSITION = pygame.Rect(0, 0, CB_SCALE_W, CB_SCALE_H)
+
+GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_dirtpaths.png'))
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (630, 630))
 
-COWBOY_POSITION = pygame.Rect(125, 25, CB_SCALE_W, CB_SCALE_H)
-COWBOY_POSITION = COWBOY.get_rect(center = (300, 300))
-
-WIDTH, HEIGHT = 630, 620
+WIDTH, HEIGHT = 630, 630
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
 
@@ -37,13 +37,69 @@ cowboy_facing_left = False
 cowboy_facing_up = False
 cowboy_facing_down = False
 
+level_0 = [[0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0], 
+           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+           [0, 0, 0, 0, 'b', 'a', 0, 'a','b', 0, 0, 0, 0], 
+           [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 0], 
+           [0, 0, 'c', 0, 0, 0, 0, 0, 0, 0,'c', 0, 0], 
+           [1, 0, 'd', 0, 0, 0, 0, 0, 0, 0,'d', 0, 2], 
+           [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2], 
+           [1, 0, 'd', 0, 0, 0, 0, 0, 0, 0,'d', 0, 2],
+           [0, 0, 'c', 0, 0, 0, 0, 0, 0, 0,'c', 0, 0],
+           [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 0],
+           [0, 0, 0, 0, 'b', 'a', 0, 'a','b', 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0]]
+
+init_y = 6
+for row in range(len(level_0)):
+    init_x = 6
+    for column in range(len(level_0[row])):
+        if level_0[row][column] == 9:
+            COWBOY_POSITION.x = init_x
+            COWBOY_POSITION.y = init_y
+        init_x += 48
+    init_y += 48
+
 clock = pygame.time.Clock()
 running = True
 
+def rock():
+    random_number = random.randint(1, 4)
+    return "Rock" + str(random_number) + ".png"
+
 def display_frame(COWBOY_POSITION):
-    WIN.fill(BLACK)
+    init_x = 6
+    init_y = 6
+
     WIN.blit(GAME_SQUARE, (0, 0))
     WIN.blit(COWBOY, COWBOY_POSITION)
+
+    for row in range(len(level_0)):
+        init_x = 6
+        for column in range(len(level_0[row])):
+            if level_0[row][column] == 'a':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock1.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_0[row][column] == 'b':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock2.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_0[row][column] == 'c':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock3.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_0[row][column] == 'a':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            init_x += 48
+        init_y += 48
 
     for i in range (len(skeletons)):
         WIN.blit(skeletons[i].SKELETON, skeletons[i].SKELETON_POSITION)
@@ -114,7 +170,7 @@ def play():
     
 
     pygame.display.set_caption("Play")
-    pygame.mixer.music.load(os.path.join('Assets','2019-01-15_-_You_Just_Got_Pwned_-_David_Fesliyan.mp3'))
+    pygame.mixer.music.load(os.path.join('Assets','2021-08-16_-_8_Bit_Adventure_-_www.FesliyanStudios.com.mp3'))
     pygame.mixer.music.play(-1)
 
     player_bullets = []
@@ -123,7 +179,7 @@ def play():
     global clock
     global WIN
 
-    click_sound = pygame.mixer.Sound(os.path.join('Assets','9mm-pistol-shoot-short-reverb-7152.mp3'))
+    gun_sound = pygame.mixer.Sound(os.path.join('Assets','9mm-pistol-shoot-short-reverb-7152.mp3'))
 
     while running:
         clock.tick(FPS)
@@ -133,7 +189,7 @@ def play():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    click_sound.play()
+                    gun_sound.play()
                     player_bullets.append(player_bullet.Player_Bullet(COWBOY_POSITION.x, COWBOY_POSITION.y))
 
         read_player_move(pygame.key.get_pressed())
