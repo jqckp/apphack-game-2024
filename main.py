@@ -40,6 +40,9 @@ GAME_SQUARE_1 = pygame.transform.scale(GAME_SQUARE_1, (630, 630))
 GAME_SQUARE_2 = pygame.image.load(os.path.join('Assets', 'Grass_Background_Rocks.png'))
 GAME_SQUARE_2 = pygame.transform.scale(GAME_SQUARE_2, (630, 630))
 
+GAME_SQUARE_3 = pygame.image.load(os.path.join('Assets', 'Dungeon_Background.png'))
+GAME_SQUARE_3 = pygame.transform.scale(GAME_SQUARE_3, (630, 630))
+
 WIDTH, HEIGHT = 630, 630
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
@@ -49,7 +52,7 @@ cowboy_facing_left = False
 cowboy_facing_up = False
 cowboy_facing_down = False
 
-level_0 = [[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0], 
+level_0 = [[0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0], 
            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
            [0, 0, 0, 0, 'b', 'a', 0, 'a','b', 0, 0, 0, 0], 
            [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 0], 
@@ -90,6 +93,19 @@ level_2= [['a', 'c', 'a','d', 0, 0, 0, 0, 0, 0, 'c', 'd', 'a'],
             ['b', 'c', 0, 0, 0, 0, 0, 0, 0, 'a', 'b', 'b', 'c'],
             ['a', 'd', 'c', 'a', 0, 0, 0, 0, 'd', 'b', 'c', 'a', 'd'],
             ['b', 'b', 'd', 'b', 'd', 0, 0, 0, 'a', 'c', 'd', 'c', 'a']]
+level_3 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0]]
 
 init_y = 6
 for row in range(len(level_0)):
@@ -178,6 +194,13 @@ def load_level_0(COWBOY_POSITION):
         in_level_2 = False
         in_level_3 = False
         COWBOY_POSITION.x = WIDTH - COWBOY.get_width()
+    elif (COWBOY_POSITION.colliderect(level_3_rect)):
+        in_level_0 = False
+        in_level_1 = False
+        in_level_2 = False
+        in_level_3 = True
+        COWBOY_POSITION.x = WIDTH/2 + COWBOY.get_width()
+        COWBOY_POSITION.y = HEIGHT - COWBOY.get_height()
 
     
 
@@ -291,6 +314,61 @@ def load_level_2():
         COWBOY_POSITION.x = WIDTH - COWBOY.get_width()
     pygame.display.update()
 
+def load_level_3():
+    global level_0_rect
+    global level_1_rect
+    global level_2_rect
+    global level_3_rect
+
+    global in_level_0
+    global in_level_1
+    global in_level_2
+    global in_level_3
+
+    init_x = 6
+    init_y = 6
+
+    WIN.fill(BLACK)
+    WIN.blit(GAME_SQUARE_3, (0, 0))
+    WIN.blit(COWBOY, COWBOY_POSITION)
+
+    for row in range(len(level_3)):
+        init_x = 6
+        for column in range(len(level_3[row])):
+            if level_3[row][column] == 'a':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock1.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_3[row][column] == 'b':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock2.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_3[row][column] == 'c':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock3.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_3[row][column] == 'a':
+                rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
+                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                WIN.blit(rock_img, ROCK_POSITION)
+            if level_3[row][column] == 9:
+                level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+            init_x += 48
+        init_y += 48
+    
+    if (COWBOY_POSITION.colliderect(level_0_rect)):
+        in_level_0 = True
+        in_level_1 = False
+        in_level_2 = False
+        in_level_3 = False
+        COWBOY_POSITION.x = WIDTH/2 - COWBOY.get_width()
+        COWBOY_POSITION.y = 6
+    pygame.display.update()
+
 def read_player_move(keys):
    
     global COWBOY
@@ -376,6 +454,9 @@ def play():
 
         if in_level_2:
             load_level_2()
+        
+        if in_level_3:
+            load_level_3()
 
         if in_level_0:
             load_level_0(COWBOY_POSITION)
