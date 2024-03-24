@@ -122,6 +122,8 @@ def play():
     global clock
     global WIN
 
+    click_sound = pygame.mixer.Sound(os.path.join('Assets','9mm-pistol-shoot-short-reverb-7152.mp3'))
+
     while running:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -130,6 +132,7 @@ def play():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    click_sound.play()
                     player_bullets.append(player_bullet.Player_Bullet(COWBOY_POSITION.x, COWBOY_POSITION.y))
 
         read_player_move(pygame.key.get_pressed())
