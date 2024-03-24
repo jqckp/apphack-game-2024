@@ -1,3 +1,39 @@
-projectile_speed = 5 #Projectile speed
-damage = 3 #1.5 hearts of damage
+import pygame
+import os
+import random
+
+
+
+
+class skeleton:
+
+    
+    def __init__(self):
+        self.x_coord = random.randint(0, 600)
+        self.y_coord = random.randint(0, 600)
+        self.SKELETON = pygame.image.load(os.path.join('Assets', 'Skeleton_Enemy.png'))
+        self.SKELETON = pygame.transform.scale(self.SKELETON, (75, 75))
+        self.SKELETON_POSITION = self.SKELETON.get_rect(center = (self.x_coord, self.y_coord))
+        self.projectile_speed = 5
+        self.damage = 3
+        self.projectile_size = (10, 10)
+        self.shots_to_kill = 3
+        self.health = 3
+
+    def attack(self):
+        print("I am attacking")
+        
+    def alerted(self):
+        pass
+
+    def get_x_pos(self):
+        return self.x_coord
+    
+    def get_y_pos(self):
+        return self.y_coord
+
+
+    
+    
+
 

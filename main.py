@@ -1,15 +1,22 @@
-import pygame
+import pygame 
+
 import sys
 import os
 import button
 import player_bullet
+from skeleton import skeleton
+import math
 
 pygame.init()
 
 FPS = 60
 BLACK = ((0,0,0))
 
+
+
 cowboy_speed = 4
+
+skeletons = [skeleton(), skeleton(), skeleton()]
 
 COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
 COWBOY = pygame.transform.scale(COWBOY, (75, 75))
@@ -18,6 +25,7 @@ GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_105x105
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (600, 600))
 
 COWBOY_POSITION = pygame.Rect(125, 25, 75, 75)
+COWBOY_POSITION = COWBOY.get_rect(center = (300, 300))
 
 WIDTH, HEIGHT = 600, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -34,7 +42,18 @@ running = True
 def display_frame(COWBOY_POSITION):
     WIN.fill(BLACK)
     WIN.blit(GAME_SQUARE, (0, 0))
-    WIN.blit(COWBOY, (COWBOY_POSITION.x, COWBOY_POSITION.y))
+    WIN.blit(COWBOY, COWBOY_POSITION)
+
+    for i in range (len(skeletons)):
+        WIN.blit(skeletons[i].SKELETON, skeletons[i].SKELETON_POSITION)
+        if (COWBOY_POSITION.colliderect(skeletons[i].SKELETON_POSITION)):
+            print("you lose!")
+    
+        distance = math.sqrt((COWBOY_POSITION.x - skeletons[i].get_x_pos())**2 + (COWBOY_POSITION.y - skeletons[i].get_y_pos())**2)
+        if distance < 200:
+            print("Moving towards player")
+
+
     pygame.display.update()
 
 def read_player_move(keys):
@@ -91,6 +110,8 @@ def read_player_move(keys):
     COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
 
 def play():
+    
+
     pygame.display.set_caption("Play")
     pygame.mixer.music.load(os.path.join('Assets','2019-01-15_-_You_Just_Got_Pwned_-_David_Fesliyan.mp3'))
     pygame.mixer.music.play(-1)
