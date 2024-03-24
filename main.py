@@ -29,7 +29,12 @@ skeletons = [skeleton(), skeleton(), skeleton()]
 COWBOY = pygame.image.load(os.path.join('Assets', "Player_Character.png"))
 COWBOY = pygame.transform.scale(COWBOY, (CB_SCALE_W, CB_SCALE_H))
 
+ob = []
+
 COWBOY_POSITION = pygame.Rect(0, 0, CB_SCALE_W, CB_SCALE_H)
+
+FIRE_img = pygame.image.load(os.path.join('Assets', 'fire.png'))
+FIRE = pygame.transform.scale(FIRE_img, (50, 50))
 
 GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_dirtpaths.png'))
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (630, 630))
@@ -52,19 +57,19 @@ cowboy_facing_left = False
 cowboy_facing_up = False
 cowboy_facing_down = False
 
-level_0 = [[0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0], 
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-           [0, 0, 0, 0, 'b', 'a', 0, 'a','b', 0, 0, 0, 0], 
-           [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 0], 
-           [0, 0, 'c', 0, 0, 0, 0, 0, 0, 0,'c', 0, 0], 
+level_0 = [['a', 0, 0, 0, 'c', 0, 0, 3, 'a', 0, 'a', 0, 0], 
+           [0, 'b', 0, 0, 0, 0, 0, 'c', 0, 0, 0, 'a', 0], 
+           ['d', 'c', 'd', 'a', 'b', 'a', 0, 'a','b', 0, 0, 0, 0], 
+           ['a', 'a', 0, 'b', 0, 0, 0, 0, 0,'b', 0, 'c', 0], 
+           [0, 'a', 'c', 0, 0, 0, 0, 0, 0, 0,'c', 0, 0], 
            [1, 0, 'd', 0, 0, 0, 0, 0, 0, 0,'d', 0, 2], 
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+           [0, 0, 0, 0, 0, 'f', 0, 0, 0, 0, 0, 0, 0], 
            [0, 0, 'd', 0, 0, 0, 0, 0, 0, 0,'d', 0, 0],
-           [0, 0, 'c', 0, 0, 0, 0, 0, 0, 0,'c', 0, 0],
-           [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 0],
-           [0, 0, 0, 0, 'b', 'a', 0, 'a','b', 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0]]
+           ['c', 'b', 'c', 0, 0, 0, 0, 0, 0, 0,'c', 'd', 0],
+           [0, 0, 0, 'b', 0, 0, 0, 0, 0,'b', 0, 0, 'd'],
+           [0, 'a', 0, 0, 'b', 'a', 0, 'a','b', 'c', 0, 'b', 0],
+           ['d', 0, 0, 0, 0, 0, 0, 0, 0, 'c', 0, 'b', 0],
+           [0, 'c', 0, 'a', 0, 0, 9, 0, 'd', 0, 0, 'c', 0]]
 
 level_1 = [[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 5, 5],
             [0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5],
@@ -94,6 +99,7 @@ level_2= [['a', 'c', 'a','d', 0, 0, 0, 0, 0, 0, 'c', 'd', 'a'],
             ['a', 'd', 'c', 'a', 0, 0, 0, 0, 'd', 'b', 'c', 'a', 'd'],
             ['b', 'b', 'd', 'b', 'd', 0, 0, 0, 'a', 'c', 'd', 'c', 'a']]
 level_3 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 'f', 0, 0, 'd', 0, 0, 0, 0, 0, 0, 'f', 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -102,8 +108,7 @@ level_3 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 'f', 0, 0, 0, 0, 0, 0, 0, 0, 0, 'f', 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0]]
 
@@ -148,22 +153,31 @@ def load_level_0(COWBOY_POSITION):
                 tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Hole_left.png'))
                 tree_img = pygame.transform.scale(tree_img, (CB_SCALE_W, TREE_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, TREE_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(tree_img, ROCK_POSITION)
             if level_0[row][column] == 'b':
-                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Hole_left.png'))
+                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Hole_right.png'))
                 tree_img = pygame.transform.scale(tree_img, (CB_SCALE_W, TREE_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, TREE_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(tree_img, ROCK_POSITION)
             if level_0[row][column] == 'c':
-                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Hole_left.png'))
+                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Plain_right.png'))
                 tree_img = pygame.transform.scale(tree_img, (CB_SCALE_W, TREE_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, TREE_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(tree_img, ROCK_POSITION)
-            if level_0[row][column] == 'a':
-                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Hole_left.png'))
+            if level_0[row][column] == 'd':
+                tree_img = pygame.image.load(os.path.join('Assets', 'Tree_Stump_left.png'))
                 tree_img = pygame.transform.scale(tree_img, (CB_SCALE_W, TREE_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, TREE_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(tree_img, ROCK_POSITION)
+            if level_0[row][column] == 'f':
+                FIRE_img = pygame.image.load(os.path.join('Assets', 'fire.png'))
+                FIRE_img = pygame.transform.scale(FIRE_img, (100, 100))
+                FIRE_POS = pygame.Rect(init_x, init_y, 100, 100)
+                WIN.blit(FIRE_img, FIRE_POS)
             if level_0[row][column] == 1:
                 level_1_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
             if level_0[row][column] == 2:
@@ -227,25 +241,29 @@ def load_level_1():
     for row in range(len(level_1)):
         init_x = 6
         for column in range(len(level_1[row])):
-            if level_1[row][column] == 'a':
+            if level_1[row][column] == 5:
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock1.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
-            if level_1[row][column] == 'b':
+            if level_1[row][column] == 5:
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock2.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_1[row][column] == 'c':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock3.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_1[row][column] == 'd':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_1[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
@@ -285,21 +303,25 @@ def load_level_2():
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock1.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_2[row][column] == 'b':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock2.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_2[row][column] == 'c':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock3.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_2[row][column] == 'a':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
             if level_2[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
@@ -335,26 +357,17 @@ def load_level_3():
     for row in range(len(level_3)):
         init_x = 6
         for column in range(len(level_3[row])):
-            if level_3[row][column] == 'a':
-                rock_img = pygame.image.load(os.path.join('Assets', 'Rock1.png'))
-                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
-                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+            if level_3[row][column] == 'd':
+                rock_img = pygame.image.load(os.path.join('Assets', 'dragon.png'))
+                rock_img = pygame.transform.scale(rock_img, (200, 400))
+                ROCK_POSITION = pygame.Rect(init_x, init_y, 200, 400)
+                ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
-            if level_3[row][column] == 'b':
-                rock_img = pygame.image.load(os.path.join('Assets', 'Rock2.png'))
-                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
-                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
-                WIN.blit(rock_img, ROCK_POSITION)
-            if level_3[row][column] == 'c':
-                rock_img = pygame.image.load(os.path.join('Assets', 'Rock3.png'))
-                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
-                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
-                WIN.blit(rock_img, ROCK_POSITION)
-            if level_3[row][column] == 'a':
-                rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
-                rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
-                ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
-                WIN.blit(rock_img, ROCK_POSITION)
+            if level_0[row][column] == 'f':
+                FIRE_img = pygame.image.load(os.path.join('Assets', 'fire.png'))
+                FIRE_img = pygame.transform.scale(FIRE_img, (100, 100))
+                FIRE_POS = pygame.Rect(init_x, init_y, 100, 100)
+                WIN.blit(FIRE_img, FIRE_POS)
             if level_3[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
             init_x += 48
