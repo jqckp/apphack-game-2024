@@ -19,7 +19,18 @@ class skeleton:
         self.projectile_size = (10, 10)
         self.shots_to_kill = 3
         self.health = 3
+
+    def attack(self):
+        print("I am attacking")
         
+    def alerted(self):
+        pass
+
+    def get_x_pos(self):
+        return self.x_coord
+    
+    def get_y_pos(self):
+        return self.y_coord
 
 
     
