@@ -30,6 +30,7 @@ COWBOY = pygame.image.load(os.path.join('Assets', "Player_Character.png"))
 COWBOY = pygame.transform.scale(COWBOY, (CB_SCALE_W, CB_SCALE_H))
 
 ob = []
+enemies = []
 
 COWBOY_POSITION = pygame.Rect(0, 0, CB_SCALE_W, CB_SCALE_H)
 
@@ -71,14 +72,14 @@ level_0 = [['a', 0, 0, 0, 'c', 0, 0, 3, 'a', 0, 'a', 0, 0],
 level_1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 'g', 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 'g', 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 'g', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 'g', 0, 0, 0],
+            [0, 0, 0, 'g', 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
@@ -95,6 +96,8 @@ level_2= [['a', 'c', 'a','d', 0, 0, 0, 0, 0, 0, 'c', 'd', 'a'],
             ['b', 'c', 0, 0, 0, 0, 0, 0, 0, 'a', 'b', 'b', 'c'],
             ['a', 'd', 'c', 'a', 0, 0, 0, 0, 'd', 'b', 'c', 'a', 'd'],
             ['b', 'b', 'd', 'b', 'd', 0, 0, 0, 'a', 'c', 'd', 'c', 'a']]
+
+
 level_3 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 'f', 0, 0, 'd', 0, 0, 0, 0, 0, 0, 'f', 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -121,6 +124,7 @@ for row in range(len(level_0)):
 
 clock = pygame.time.Clock()
 running = True
+
 
 def rock():
     random_number = random.randint(1, 4)
@@ -258,6 +262,12 @@ def load_level_1():
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
                 ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
+            if level_1[row][column] == 'g':
+                gob_img = pygame.image.load(os.path.join('Assets', 'Goblin_Enemy.png'))
+                gob_img = pygame.transform.scale(gob_img, (CB_SCALE_W, CB_SCALE_H))
+                GOB_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                enemies.append(GOB_POSITION)
+                WIN.blit(gob_img, GOB_POSITION)
             if level_1[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
             init_x += 48
@@ -320,7 +330,7 @@ def load_level_2():
                 wiz_img = pygame.image.load(os.path.join('Assets', 'Wizard_Enemy.png'))
                 wiz_img = pygame.transform.scale(wiz_img, (CB_SCALE_W, CB_SCALE_H))
                 WIZ_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
-                ob.append(WIZ_POSITION)
+                enemies.append(WIZ_POSITION)
                 WIN.blit(wiz_img, WIZ_POSITION)
             if level_2[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
@@ -361,11 +371,11 @@ def load_level_3():
         init_x = 6
         for column in range(len(level_3[row])):
             if level_3[row][column] == 'd':
-                rock_img = pygame.image.load(os.path.join('Assets', 'dragon.png'))
-                rock_img = pygame.transform.scale(rock_img, (200, 400))
-                ROCK_POSITION = pygame.Rect(init_x, init_y, 200, 400)
-                ob.append(ROCK_POSITION)
-                WIN.blit(rock_img, ROCK_POSITION)
+                dragon_img = pygame.image.load(os.path.join('Assets', 'dragon.png'))
+                dragon_img = pygame.transform.scale(dragon_img, (200, 400))
+                dragon_POSITION = pygame.Rect(init_x, init_y, 200, 400)
+                enemies.append(dragon_POSITION)
+                WIN.blit(dragon_img, dragon_POSITION)
             if level_0[row][column] == 'f':
                 FIRE_img = pygame.image.load(os.path.join('Assets', 'fire.png'))
                 FIRE_img = pygame.transform.scale(FIRE_img, (100, 100))
@@ -438,6 +448,7 @@ def read_player_move(keys):
     COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
     COWBOY_POSITION.y = max(0, min(COWBOY_POSITION.y, HEIGHT - COWBOY.get_height()))
 
+
 def play():
     
 
@@ -445,6 +456,7 @@ def play():
     pygame.mixer.music.load(os.path.join('Assets','2021-08-16_-_8_Bit_Adventure_-_www.FesliyanStudios.com.mp3'))
     pygame.mixer.music.play(-1)
 
+    global enemies
     player_bullets = []
 
     global running
@@ -477,6 +489,8 @@ def play():
 
         if in_level_0:
             load_level_0(COWBOY_POSITION)
+
+        
         
         for bullet in player_bullets:
             if cowboy_facing_right and not(bullet.creation):
@@ -497,6 +511,15 @@ def play():
                 bullet.down(WIN)
             if bullet.x > 650 or bullet.x < -50 or bullet.y > 650 or bullet.y < -50:
                 player_bullets.remove(bullet)
+            
+
+            bullet_rect = pygame.Rect(bullet.x, bullet.y, 2, 14)
+            for enem in enemies:
+                enem_rect = pygame.Rect(enem.x, enem.y, CB_SCALE_W, CB_SCALE_H)
+                if bullet_rect.colliderect(enem_rect):
+                    print('HIT')
+                    enem.x = 3000
+                    enem.y = 3000
 
 
 def main_menu():
