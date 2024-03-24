@@ -33,9 +33,6 @@ ob = []
 
 COWBOY_POSITION = pygame.Rect(0, 0, CB_SCALE_W, CB_SCALE_H)
 
-FIRE_img = pygame.image.load(os.path.join('Assets', 'fire.png'))
-FIRE = pygame.transform.scale(FIRE_img, (50, 50))
-
 GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_dirtpaths.png'))
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (630, 630))
 
@@ -88,12 +85,12 @@ level_1 = [[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 5, 5],
 level_2= [['a', 'c', 'a','d', 0, 0, 0, 0, 0, 0, 'c', 'd', 'a'],
             ['b','d','b', 0, 0, 0, 0, 0, 0, 0, 'a', 'b', 'a'],
             ['c', 'a', 0, 0, 0, 0, 0, 0, 0, 0, 0, 'd', 'c'],
-            ['d', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'd'],
+            ['d', 0, 0, 0, 'w', 0, 0, 0, 0, 'w', 0, 0, 'd'],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 0, 0],
             [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'b'],
+            [0, 0, 0, 'w', 0, 0, 0, 0, 0, 0, 0, 0, 'b'],
             ['a', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'd', 'a'],
             ['b', 'c', 0, 0, 0, 0, 0, 0, 0, 'a', 'b', 'b', 'c'],
             ['a', 'd', 'c', 'a', 0, 0, 0, 0, 'd', 'b', 'c', 'a', 'd'],
@@ -189,12 +186,8 @@ def load_level_0(COWBOY_POSITION):
 
     for i in range (len(skeletons)):
         WIN.blit(skeletons[i].SKELETON, skeletons[i].SKELETON_POSITION)
-        if (COWBOY_POSITION.colliderect(skeletons[i].SKELETON_POSITION)):
-            print("you lose!")
     
         distance = math.sqrt((COWBOY_POSITION.x - skeletons[i].get_x_pos())**2 + (COWBOY_POSITION.y - skeletons[i].get_y_pos())**2)
-        if distance < 200:
-            print("Moving towards player")
 
     if (COWBOY_POSITION.colliderect(level_2_rect)):
         in_level_0 = False
@@ -317,12 +310,18 @@ def load_level_2():
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
                 ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
-            if level_2[row][column] == 'a':
+            if level_2[row][column] == 'd':
                 rock_img = pygame.image.load(os.path.join('Assets', 'Rock4.png'))
                 rock_img = pygame.transform.scale(rock_img, (CB_SCALE_W, CB_SCALE_H))
                 ROCK_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
                 ob.append(ROCK_POSITION)
                 WIN.blit(rock_img, ROCK_POSITION)
+            if level_2[row][column] == 'w':
+                wiz_img = pygame.image.load(os.path.join('Assets', 'Wizard_Enemy.png'))
+                wiz_img = pygame.transform.scale(wiz_img, (CB_SCALE_W, CB_SCALE_H))
+                WIZ_POSITION = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
+                ob.append(WIZ_POSITION)
+                WIN.blit(wiz_img, WIZ_POSITION)
             if level_2[row][column] == 9:
                 level_0_rect = pygame.Rect(init_x, init_y, CB_SCALE_W, CB_SCALE_H)
             init_x += 48
@@ -337,6 +336,10 @@ def load_level_2():
     pygame.display.update()
 
 def load_level_3():
+    
+    pygame.mixer.music.load(os.path.join('Assets','8-bit-background-music-for-arcade-game-come-on-mario-164702 copy.mp3'))
+    pygame.mixer.music.play(-1)
+    
     global level_0_rect
     global level_1_rect
     global level_2_rect
@@ -470,6 +473,7 @@ def play():
         
         if in_level_3:
             load_level_3()
+            
 
         if in_level_0:
             load_level_0(COWBOY_POSITION)
