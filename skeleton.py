@@ -4,7 +4,6 @@ import random
 
 
 
-
 class skeleton:
 
     
@@ -31,9 +30,5 @@ class skeleton:
     
     def get_y_pos(self):
         return self.y_coord
-
-
-    
-    
 
 
