@@ -9,7 +9,7 @@ class Button():
 		self.rect.topleft = (x, y)
 		self.clicked = False
 
-	def draw(self, surface):
+	def draw(self, WIN):
 		event = False
 		pos = pygame.mouse.get_pos()
 		if self.rect.collidepoint(pos):
@@ -19,6 +19,6 @@ class Button():
 
 		if pygame.mouse.get_pressed()[0] == 0:
 			self.clicked = False
-		surface.blit(self.i, (self.rect.x, self.rect.y))
+		WIN.blit(self.i, (self.rect.x, self.rect.y))
 
 		return event

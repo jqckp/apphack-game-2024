@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 import button
+import player_bullet
 
 pygame.init()
 
@@ -16,11 +17,16 @@ COWBOY = pygame.transform.scale(COWBOY, (75, 75))
 GAME_SQUARE = pygame.image.load(os.path.join('Assets', 'Grass_Background_105x105.png'))
 GAME_SQUARE = pygame.transform.scale(GAME_SQUARE, (600, 600))
 
-COWBOY_POSITION = pygame.Rect(425, 225, 100, 100)
+COWBOY_POSITION = pygame.Rect(125, 25, 75, 75)
 
 WIDTH, HEIGHT = 600, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaghetti Fantasy")
+
+cowboy_facing_right = True
+cowboy_facing_left = False
+cowboy_facing_up = False
+cowboy_facing_down = False
 
 clock = pygame.time.Clock()
 running = True
@@ -34,23 +40,31 @@ def display_frame(COWBOY_POSITION):
 def read_player_move(keys):
    
     global COWBOY
-    cowboy_facing_right = True
-    cowboy_facing_up = False
-    cowboy_facing_down = False
+    global cowboy_facing_right
+    global cowboy_facing_left
+    global cowboy_facing_up
+    global cowboy_facing_down
 
     if keys[pygame.K_a]:
         COWBOY_POSITION.x -= cowboy_speed
-        COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-        COWBOY = pygame.transform.scale(COWBOY, (75, 75))
-        if cowboy_facing_right:
-                COWBOY = pygame.transform.flip(COWBOY, True, False)
+        if not(cowboy_facing_left):
+            COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
+            COWBOY = pygame.transform.scale(COWBOY, (75, 75))
+            COWBOY = pygame.transform.flip(COWBOY, True, False)
+            cowboy_facing_left = True
+            cowboy_facing_up = False
+            cowboy_facing_down = False
+            cowboy_facing_right = False
                 
     if keys[pygame.K_d]:
         COWBOY_POSITION.x += cowboy_speed
-        COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
-        COWBOY = pygame.transform.scale(COWBOY, (75, 75))
         if not(cowboy_facing_right):
-            COWBOY = pygame.transform.flip(COWBOY, True, False)
+            COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character.png'))
+            COWBOY = pygame.transform.scale(COWBOY, (75, 75))
+            cowboy_facing_right = True
+            cowboy_facing_up = False
+            cowboy_facing_down = False
+            cowboy_facing_left = False
             
     if keys[pygame.K_w]:
         COWBOY_POSITION.y -= cowboy_speed
@@ -58,14 +72,19 @@ def read_player_move(keys):
             COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character_up.png'))
             COWBOY = pygame.transform.scale(COWBOY, (75, 75))
             cowboy_facing_up = True
+            cowboy_facing_down = False
+            cowboy_facing_right = False
+            cowboy_facing_left = False
 
     if keys[pygame.K_s]:
+        COWBOY_POSITION.y += cowboy_speed
         if not(cowboy_facing_down):
             COWBOY = pygame.image.load(os.path.join('Assets', 'Player_Character_down.png'))
             COWBOY = pygame.transform.scale(COWBOY, (75, 75))
             cowboy_facing_down = True
-
-        COWBOY_POSITION.y += cowboy_speed
+            cowboy_facing_left = False
+            cowboy_facing_up = False
+            cowboy_facing_right = False
         
 
     COWBOY_POSITION.x = max(0, min(COWBOY_POSITION.x, WIDTH - COWBOY.get_width()))
@@ -75,17 +94,47 @@ def play():
     pygame.display.set_caption("Play")
     pygame.mixer.music.load(os.path.join('Assets','2019-01-15_-_You_Just_Got_Pwned_-_David_Fesliyan.mp3'))
     pygame.mixer.music.play(-1)
+
+    player_bullets = []
+
     global running
     global clock
+    global WIN
+
     while running:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    player_bullets.append(player_bullet.Player_Bullet(COWBOY_POSITION.x, COWBOY_POSITION.y))
+
         read_player_move(pygame.key.get_pressed())
         
         display_frame(COWBOY_POSITION)
+
+        for bullet in player_bullets:
+            if cowboy_facing_right and not(bullet.creation):
+                bullet.right(WIN)
+            elif  cowboy_facing_left and not(bullet.creation):
+                bullet.left(WIN)
+            elif  cowboy_facing_up and not(bullet.creation):
+                bullet.up(WIN)
+            elif  cowboy_facing_down and not(bullet.creation):
+                bullet.down(WIN)
+            elif bullet.dir == 2 and bullet.creation:
+                bullet.right(WIN)
+            elif  bullet.dir == 1 and bullet.creation:
+                bullet.left(WIN)
+            elif  bullet.dir == 3 and bullet.creation:
+                bullet.up(WIN)
+            elif  bullet.dir == 4 and bullet.creation:
+                bullet.down(WIN)
+            if bullet.x > 650 or bullet.x < -50 or bullet.y > 650 or bullet.y < -50:
+                player_bullets.remove(bullet)
+
 
 def main_menu():
     global running
