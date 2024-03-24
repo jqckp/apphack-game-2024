@@ -12,7 +12,8 @@ class Player_Bullet():
         
     def left(self, WIN):
         if not(self.creation):
-            self.y += 40
+            self.y += 24
+            self.x += 6
         self.x -= self.speed
         self.creation = True
         self.dir = 1
@@ -23,8 +24,8 @@ class Player_Bullet():
         pygame.display.update()
     def right(self, WIN):
         if not(self.creation):
-            self.y += 40
-            self.x += 60
+            self.y += 25
+            self.x += 18
         self.x += self.speed
         self.creation = True
         self.dir = 2
@@ -35,7 +36,7 @@ class Player_Bullet():
         pygame.display.update()
     def up(self, WIN):
         if not(self.creation):
-            self.x += 10
+            self.x += 6
             self.y += 10
         self.y -= self.speed
         self.creation = True
@@ -48,8 +49,8 @@ class Player_Bullet():
     def down(self, WIN):
         self.y += self.speed
         if not(self.creation):
-            self.x += 63
-            self.y += 50
+            self.x += 35
+            self.y += 20
         self.creation = True
         self.dir = 4
 
