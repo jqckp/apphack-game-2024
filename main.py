@@ -526,7 +526,7 @@ def main_menu():
     global running
     global clock
 
-    clock.tick(FPS)
+    
 
     pygame.display.set_caption("Menu")
     start_screen = pygame.image.load(os.path.join('Assets', 'Start_Screen_Background.png'))
@@ -537,6 +537,7 @@ def main_menu():
     pygame.mixer.music.play(-1)
 
     while running:
+        clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
